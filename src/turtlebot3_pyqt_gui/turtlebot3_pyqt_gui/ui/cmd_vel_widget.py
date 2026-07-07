@@ -65,7 +65,15 @@ class CmdVelWidget(QWidget):
             pass
 
     def _on_status_changed(self, message):
-        self.status_label.setText(message)
+        self._update_status_text(message)
 
     def _on_velocity_changed(self, linear, angular):
-        self.status_label.setText(f"linear={linear:.2f}, angular={angular:.2f}")
+        self._update_status_text(f"linear={linear:.2f}, angular={angular:.2f}")
+
+    def _update_status_text(self, message):
+        if self.viewmodel is None:
+            return
+        self.status_label.setText(
+            f"{message}\n"
+            f"current linear={self.viewmodel.linear:.2f}, angular={self.viewmodel.angular:.2f}"
+        )

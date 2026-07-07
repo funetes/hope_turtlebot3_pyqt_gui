@@ -1,11 +1,17 @@
-from setuptools import find_packages, setup
+from setuptools import setup
 
 package_name = 'turtlebot3_pyqt_gui'
 
 setup(
     name=package_name,
     version='0.0.0',
-    packages=find_packages(exclude=['test']),
+    packages=[
+        'turtlebot3_pyqt_gui',
+        'turtlebot3_pyqt_gui.services',
+        'turtlebot3_pyqt_gui.ui',
+        'turtlebot3_pyqt_gui.viewmodels',
+    ],
+    package_dir={'turtlebot3_pyqt_gui': 'turtlebot3_pyqt_gui'},
     data_files=[
         ('share/ament_index/resource_index/packages',
             ['resource/' + package_name]),
@@ -24,6 +30,8 @@ setup(
     },
     entry_points={
         'console_scripts': [
+            'turtlebot3_gui = turtlebot3_pyqt_gui.turtlebot3_gui:main',
+            'turtlebot3_pyqt = turtlebot3_pyqt_gui.turtlebot3_pyqt:main'
         ],
     },
 )

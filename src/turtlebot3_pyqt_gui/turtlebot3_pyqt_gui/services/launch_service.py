@@ -1,5 +1,10 @@
 import subprocess
 
+ROBOT_USER = "hope"
+ROBOT_IP = "192.168.250.11"
+
+ROBOT = f"{ROBOT_USER}@{ROBOT_IP}"
+
 
 class LaunchService:
     def __init__(self):

@@ -15,14 +15,23 @@ class RobotStatusViewModel(QObject):
     def connect(self):
         self.ros_state = "Connected"
         self.min_scan = "0.25 m"
-        self.last_cmd = "linear: 0.00, angular: 0.00"
-        self.status_changed.emit(self.ros_state, self.min_scan, self.last_cmd)
+        self._emit_status()
 
     @pyqtSlot()
     def disconnect(self):
         self.ros_state = "Disconnected"
-        self.status_changed.emit(self.ros_state, self.min_scan, self.last_cmd)
+        self._emit_status()
 
     @pyqtSlot()
     def exit(self):
-        self.status_changed.emit(self.ros_state, self.min_scan, "Application exit requested")
+        self._emit_status("Application exit requested")
+
+    @pyqtSlot(float, float)
+    def update_cmd_vel(self, linear, angular):
+        self.last_cmd = f"linear: {linear:.2f}, angular: {angular:.2f}"
+        self._emit_status()
+
+    def _emit_status(self, message=None):
+        if message is None:
+            message = self.last_cmd
+        self.status_changed.emit(self.ros_state, self.min_scan, message)
