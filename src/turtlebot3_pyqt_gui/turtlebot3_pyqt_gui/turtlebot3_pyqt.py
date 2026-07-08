@@ -1,58 +1,30 @@
 import sys
 from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QGridLayout
-
-try:
-    from .services.launch_service import LaunchService
-    from .services.gtts_service import GttsService
-    from .services.trajectory_service import TrajectoryService
-    from .services.cmd_vel_service import CmdVelService
-    from .viewmodels.process_control_viewmodel import ProcessControlViewModel
-    from .viewmodels.gtts_viewmodel import GttsViewModel
-    from .viewmodels.trajectory_viewmodel import TrajectoryViewModel
-    from .viewmodels.cmd_vel_viewmodel import CmdVelViewModel
-    from .viewmodels.robot_status_viewmodel import RobotStatusViewModel
-    from .viewmodels.battery_viewmodel import BatteryViewModel
-    from .viewmodels.battery_voltage_viewmodel import BatteryVoltageViewModel
-    from .viewmodels.ros2_topic_viewmodel import Ros2TopicViewModel
-    from .viewmodels.waypoint_viewmodel import WaypointViewModel
-    from .viewmodels.log_viewmodel import LogViewModel
-    from .viewmodels.team_custom_viewmodel import TeamCustomViewModel
-    from .ui.robot_status_widget import RobotStatusWidget
-    from .ui.battery_voltage_widget import BatteryVoltageWidget
-    from .ui.cmd_vel_widget import CmdVelWidget
-    from .ui.ros2_topic_widget import Ros2TopicWidget
-    from .ui.waypoint_widget import WaypointWidget
-    from .ui.trajectory_widget import TrajectoryWidget
-    from .ui.gtts_widget import GttsWidget
-    from .ui.process_control_widget import ProcessControlWidget
-    from .ui.log_widget import LogWidget
-    from .ui.team_custom_widget import TeamCustomWidget
-except ImportError:
-    from services.launch_service import LaunchService
-    from services.gtts_service import GttsService
-    from services.trajectory_service import TrajectoryService
-    from services.cmd_vel_service import CmdVelService
-    from viewmodels.process_control_viewmodel import ProcessControlViewModel
-    from viewmodels.gtts_viewmodel import GttsViewModel
-    from viewmodels.trajectory_viewmodel import TrajectoryViewModel
-    from viewmodels.cmd_vel_viewmodel import CmdVelViewModel
-    from viewmodels.robot_status_viewmodel import RobotStatusViewModel
-    from viewmodels.battery_viewmodel import BatteryViewModel
-    from viewmodels.battery_voltage_viewmodel import BatteryVoltageViewModel
-    from viewmodels.ros2_topic_viewmodel import Ros2TopicViewModel
-    from viewmodels.waypoint_viewmodel import WaypointViewModel
-    from viewmodels.log_viewmodel import LogViewModel
-    from viewmodels.team_custom_viewmodel import TeamCustomViewModel
-    from ui.robot_status_widget import RobotStatusWidget
-    from ui.battery_voltage_widget import BatteryVoltageWidget
-    from ui.cmd_vel_widget import CmdVelWidget
-    from ui.ros2_topic_widget import Ros2TopicWidget
-    from ui.waypoint_widget import WaypointWidget
-    from ui.trajectory_widget import TrajectoryWidget
-    from ui.gtts_widget import GttsWidget
-    from ui.process_control_widget import ProcessControlWidget
-    from ui.log_widget import LogWidget
-    from ui.team_custom_widget import TeamCustomWidget
+from .services.launch_service import LaunchService
+from .services.gtts_service import GttsService
+from .services.trajectory_service import TrajectoryService
+from .services.cmd_vel_service import CmdVelService
+from .viewmodels.process_control_viewmodel import ProcessControlViewModel
+from .viewmodels.gtts_viewmodel import GttsViewModel
+from .viewmodels.trajectory_viewmodel import TrajectoryViewModel
+from .viewmodels.cmd_vel_viewmodel import CmdVelViewModel
+from .viewmodels.robot_status_viewmodel import RobotStatusViewModel
+from .viewmodels.battery_viewmodel import BatteryViewModel
+from .viewmodels.battery_voltage_viewmodel import BatteryVoltageViewModel
+from .viewmodels.ros2_topic_viewmodel import Ros2TopicViewModel
+from .viewmodels.waypoint_viewmodel import WaypointViewModel
+from .viewmodels.log_viewmodel import LogViewModel
+from .viewmodels.team_custom_viewmodel import TeamCustomViewModel
+from .ui.robot_status_widget import RobotStatusWidget
+from .ui.battery_voltage_widget import BatteryVoltageWidget
+from .ui.cmd_vel_widget import CmdVelWidget
+from .ui.ros2_topic_widget import Ros2TopicWidget
+from .ui.waypoint_widget import WaypointWidget
+from .ui.trajectory_widget import TrajectoryWidget
+from .ui.gtts_widget import GttsWidget
+from .ui.process_control_widget import ProcessControlWidget
+from .ui.log_widget import LogWidget
+from .ui.team_custom_widget import TeamCustomWidget
 
 class MainWindow(QMainWindow):
     def __init__(self, ros_node=None):

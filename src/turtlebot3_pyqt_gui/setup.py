@@ -11,7 +11,7 @@ setup(
         'turtlebot3_pyqt_gui.ui',
         'turtlebot3_pyqt_gui.viewmodels',
     ],
-    package_dir={'turtlebot3_pyqt_gui': 'turtlebot3_pyqt_gui'},
+    package_dir={'turtlebot3_pyqt_ui': 'turtlebot3_pyqt_gui'},
     data_files=[
         ('share/ament_index/resource_index/packages',
             ['resource/' + package_name]),
