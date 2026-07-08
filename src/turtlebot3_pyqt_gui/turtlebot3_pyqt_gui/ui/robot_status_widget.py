@@ -12,16 +12,10 @@ class RobotStatusWidget(QWidget):
         status_group.setStyleSheet("QGroupBox { font-weight: bold; }")
         status_layout = QFormLayout()
 
-        self.ros_state = QLineEdit("Connected")
+        self.ros_state = QLineEdit("--")
         self.ros_state.setReadOnly(True)
-        self.min_scan = QLineEdit("0.25 m")
-        self.min_scan.setReadOnly(True)
-        self.last_cmd = QLineEdit("linear: 0.00, angular: 0.00")
-        self.last_cmd.setReadOnly(True)
 
         status_layout.addRow("ROS", self.ros_state)
-        status_layout.addRow("Min Scan (m)", self.min_scan)
-        status_layout.addRow("Last cmd vel", self.last_cmd)
 
         status_group.setLayout(status_layout)
         layout.addWidget(status_group)
@@ -47,5 +41,3 @@ class RobotStatusWidget(QWidget):
 
     def update_status(self, ros_state, min_scan, last_cmd):
         self.ros_state.setText(ros_state)
-        self.min_scan.setText(min_scan)
-        self.last_cmd.setText(last_cmd)
