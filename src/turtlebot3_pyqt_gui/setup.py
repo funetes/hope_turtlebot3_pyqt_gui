@@ -10,8 +10,13 @@ setup(
         'turtlebot3_pyqt_gui.services',
         'turtlebot3_pyqt_gui.ui',
         'turtlebot3_pyqt_gui.viewmodels',
+        'signals',
+        "turtlebot3_pyqt_gui.ros",
     ],
-    package_dir={'turtlebot3_pyqt_gui': 'turtlebot3_pyqt_gui'},
+    package_dir={
+        'turtlebot3_pyqt_gui': 'turtlebot3_pyqt_gui',
+        "signals": "../signals"
+        },
     data_files=[
         ('share/ament_index/resource_index/packages',
             ['resource/' + package_name]),
