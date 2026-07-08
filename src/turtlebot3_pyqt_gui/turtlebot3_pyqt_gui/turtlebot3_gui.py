@@ -6,6 +6,8 @@ from PyQt5.QtWidgets import QApplication
 import rclpy
 from rclpy.node import Node
 
+from .ros.turtlebot3_pyqt_gui_node import Turtlebot3PyQtGuiNode
+
 PYQT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', 'pyqt'))
 if PYQT_ROOT not in sys.path:
     sys.path.insert(0, PYQT_ROOT)
@@ -13,13 +15,13 @@ if PYQT_ROOT not in sys.path:
 from turtlebot3_pyqt_gui.turtlebot3_pyqt import MainWindow
 
 
-class Turtlebot3PyQtGuiNode(Node):
-    def __init__(self):
-        super().__init__('turtlebot3_pyqt_gui')
-        self._timer = self.create_timer(0.01, self._spin_once)
+# class Turtlebot3PyQtGuiNode(Node):
+#     def __init__(self):
+#         super().__init__('turtlebot3_pyqt_gui')
+#         self._timer = self.create_timer(0.01, self._spin_once)
 
-    def _spin_once(self):
-        rclpy.spin_once(self, timeout_sec=0)
+#     def _spin_once(self):
+#         rclpy.spin_once(self, timeout_sec=0)
 
 
 def main(args=None):

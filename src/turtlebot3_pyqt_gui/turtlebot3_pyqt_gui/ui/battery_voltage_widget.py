@@ -11,9 +11,9 @@ class BatteryVoltageWidget(QWidget):
         battery_group.setStyleSheet("QGroupBox { font-weight: bold; }")
         battery_layout = QFormLayout()
 
-        self.voltage_field = QLineEdit("12.8 V")
+        self.voltage_field = QLineEdit("0.0 V")
         self.voltage_field.setReadOnly(True)
-        self.capacity_field = QLineEdit("95 %")
+        self.capacity_field = QLineEdit("0 ")
         self.capacity_field.setReadOnly(True)
 
         battery_layout.addRow("Voltage", self.voltage_field)
@@ -23,7 +23,7 @@ class BatteryVoltageWidget(QWidget):
         layout.addWidget(battery_group)
 
         self.progress = QProgressBar()
-        self.progress.setValue(95)
+        self.progress.setValue(0)
         layout.addWidget(self.progress)
 
         if viewmodel is not None:
