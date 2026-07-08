@@ -1,20 +1,20 @@
 from PyQt5.QtCore import QObject, pyqtSignal, pyqtSlot
 
-from ..services.waypoints_yaml_load_service import WaypointYamlLoadService
 from ..models.waypoint import Waypoint
 
-class WaypointViewModel(QObject):
 
+class WaypointViewModel(QObject):
     waypoints_loaded = pyqtSignal(list)
     waypoint_selected = pyqtSignal(Waypoint)
     waypoint_requested = pyqtSignal(str)
 
-    def __init__(self):
+    def __init__(self, waypoint_yaml_load_service, ros_node):
         super().__init__()
-        self._yaml_service = WaypointYamlLoadService()
+        self._yaml_service = waypoint_yaml_load_service
+        self._ros_node = ros_node
         self._waypoints: list[Waypoint] = []
 
-        self._selected_waypoint: Waypoint | None  = None
+        self._selected_waypoint: Waypoint | None = None
 
     @property
     def selected_waypoint(self):
@@ -26,23 +26,27 @@ class WaypointViewModel(QObject):
 
         print(self._waypoints)
 
-        self.waypoints_loaded.emit(
-            [wp.name for wp in self._waypoints]
-        )
+        self.waypoints_loaded.emit([wp.name for wp in self._waypoints])
 
         if self._waypoints:
             self.select_waypoint(0)
 
-
     # @pyqtSlot(float, float, float)
     # def add_waypoint(self, x, y, yaw):
-        # self.current_waypoint = f"X:{x:.2f}, Y:{y:.2f}, Yaw:{yaw:.2f}"
-        # self.waypoint_added.emit(self.current_waypoint)
+    # self.current_waypoint = f"X:{x:.2f}, Y:{y:.2f}, Yaw:{yaw:.2f}"
+    # self.waypoint_added.emit(self.current_waypoint)
 
     @pyqtSlot()
     def go_to_waypoint(self):
-        pass
+        if self._selected_waypoint is None:
+            print("선택된 경유점이 없습니다.")
 
+        success = self._ros_node.navigate_to_waypoint(self.selected_waypoint)
+
+        if success:
+            print("Navigation started.")
+        else:
+            print("Navigation server unavailable.")
 
     @pyqtSlot(int)
     def select_waypoint(self, index: int):
