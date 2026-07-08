@@ -5,7 +5,10 @@ from rclpy.node import Node
 from rclpy.qos import qos_profile_sensor_data
 from sensor_msgs.msg import BatteryState, LaserScan
 from tf_transformations import euler_from_quaternion
+from nav2_msgs.action import NavigateToPose
+from rclpy.action import ActionClient
 
+from ..models.waypoint import Waypoint
 from ..models.robot_topic_info import RobotTopicInfo
 from ..signals.RosSignalsManager import SignalsManager
 
@@ -21,7 +24,11 @@ class Turtlebot3PyQtGuiNode(Node):
 
         self._robot_topic_timer = self.create_timer(0.5, self._robot_topic_emit)
 
+        self.set_action_client()
         self.set_subscription()
+
+    def set_action_client(self):
+        self._navigate_client = ActionClient(self, NavigateToPose, "navigate_to_pose")
 
     def set_subscription(self):
 
@@ -66,5 +73,21 @@ class Turtlebot3PyQtGuiNode(Node):
         # print(self.robot_topic_info)
         self.signalsManager.robot_topic_info_received.emit(self.robot_topic_info)
 
+    def navigate_to_waypoint(self, waypoint: Waypoint) -> bool:
+
+        if not self._navigate_client.wait_for_server(timeout_sec=3.0):
+            self.get_logger().warning(
+                "Navigation server is unavailable."
+            )
+            return False
+
+        goal = NavigateToPose.Goal()
+
+
+        self._navigate_client.send_goal_async(goal)
+
+        return True
+
     # def _spin_once(self):
     #     rclpy.spin_once(self, timeout_sec=0)
+
