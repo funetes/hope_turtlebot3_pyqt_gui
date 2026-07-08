@@ -14,7 +14,9 @@ class ProcessControlWidget(QWidget):
         row1 = QHBoxLayout()
         self.btn_run_bringup = QPushButton("Run Bringup")
         self.btn_run_slam = QPushButton("Run SLAM")
+        self.btn_stop_bringup = QPushButton("Stop Bringup")
         row1.addWidget(self.btn_run_bringup)
+        row1.addWidget(self.btn_stop_bringup)
         row1.addWidget(self.btn_run_slam)
         launch_layout.addLayout(row1)
 
@@ -44,6 +46,7 @@ class ProcessControlWidget(QWidget):
     def set_viewmodel(self, viewmodel):
         self.viewmodel = viewmodel
         self.btn_run_bringup.clicked.connect(self.viewmodel.run_bringup)
+        self.btn_stop_bringup.clicked.connect(self.viewmodel.stop_bringup)
         self.btn_run_slam.clicked.connect(self.viewmodel.run_slam)
         self.btn_run_nav2.clicked.connect(self.viewmodel.run_nav2)
         self.btn_run_rviz2.clicked.connect(self.viewmodel.run_rviz2)
