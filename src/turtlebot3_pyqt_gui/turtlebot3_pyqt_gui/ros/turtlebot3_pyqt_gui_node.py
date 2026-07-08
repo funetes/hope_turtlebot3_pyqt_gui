@@ -1,20 +1,14 @@
-import rclpy
-from rclpy.node import Node
+import math
 
 from nav_msgs.msg import Odometry
-from signals.RosSignalsManager import SignalsManager
+from rclpy.node import Node
+from rclpy.qos import qos_profile_sensor_data
 from sensor_msgs.msg import BatteryState, LaserScan
 from tf_transformations import euler_from_quaternion
-import math
-from dataclasses import dataclass
 
+from ..models.robot_topic_info import RobotTopicInfo
+from ..signals.RosSignalsManager import SignalsManager
 
-@dataclass(slots=True)
-class RobotTopicInfo:
-    pos_x: float = 0.0
-    pos_y: float = 0.0
-    yaw: float = 0.0
-    min_distance: float = float("inf")
 
 class Turtlebot3PyQtGuiNode(Node):
     def __init__(self):
@@ -46,9 +40,8 @@ class Turtlebot3PyQtGuiNode(Node):
             LaserScan,
             "/scan",
             self._scan_callback,
-            10,
+            qos_profile_sensor_data,
         )
-
 
     def _odom_callback(self, msg: Odometry):
 
@@ -60,16 +53,17 @@ class Turtlebot3PyQtGuiNode(Node):
     def _scan_callback(self, msg: LaserScan):
         valid = [r for r in msg.ranges if not math.isinf(r) and not math.isnan(r)]
 
-        self.robot_topic_info.min_distance = min(valid) if valid else float("inf")
+        # print(len(valid))
 
+        self.robot_topic_info.min_distance = min(valid) if valid else float("inf")
 
     def _battery_state_callback(self, msg: BatteryState):
         self.signalsManager.battery_status_received.emit(msg)
 
     def _robot_topic_emit(self):
 
-        self.get_logger().info("_robot_topic_emit")
-        print(self.robot_topic_info)
+        # self.get_logger().info("_robot_topic_emit")
+        # print(self.robot_topic_info)
         self.signalsManager.robot_topic_info_received.emit(self.robot_topic_info)
 
     # def _spin_once(self):

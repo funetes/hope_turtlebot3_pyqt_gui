@@ -10,8 +10,9 @@ setup(
         'turtlebot3_pyqt_gui.services',
         'turtlebot3_pyqt_gui.ui',
         'turtlebot3_pyqt_gui.viewmodels',
-        'signals',
+        'turtlebot3_pyqt_gui.signals',
         "turtlebot3_pyqt_gui.ros",
+        "turtlebot3_pyqt_gui.models",
     ],
     package_dir={'turtlebot3_pyqt_ui': 'turtlebot3_pyqt_gui'},
     data_files=[

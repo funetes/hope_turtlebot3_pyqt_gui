@@ -9,7 +9,6 @@ from .viewmodels.gtts_viewmodel import GttsViewModel
 from .viewmodels.trajectory_viewmodel import TrajectoryViewModel
 from .viewmodels.cmd_vel_viewmodel import CmdVelViewModel
 from .viewmodels.robot_status_viewmodel import RobotStatusViewModel
-from .viewmodels.battery_viewmodel import BatteryViewModel
 from .viewmodels.battery_voltage_viewmodel import BatteryVoltageViewModel
 from .viewmodels.ros2_topic_viewmodel import Ros2TopicViewModel
 from .viewmodels.waypoint_viewmodel import WaypointViewModel
@@ -42,7 +41,6 @@ class MainWindow(QMainWindow):
         self.trajectory_viewmodel = TrajectoryViewModel(self.trajectory_service)
         self.cmd_vel_viewmodel = CmdVelViewModel(self.cmd_vel_service)
         self.robot_status_viewmodel = RobotStatusViewModel()
-        self.battery_viewmodel = BatteryViewModel()
         self.battery_voltage_viewmodel = BatteryVoltageViewModel()
         self.ros2_topic_viewmodel = Ros2TopicViewModel()
         self.waypoint_viewmodel = WaypointViewModel()

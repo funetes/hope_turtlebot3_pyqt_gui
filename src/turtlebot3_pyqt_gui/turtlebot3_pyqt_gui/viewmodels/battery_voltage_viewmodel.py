@@ -1,7 +1,7 @@
 from PyQt5.QtCore import QObject, pyqtSignal, pyqtSlot
 from sensor_msgs.msg import BatteryState
 
-from signals.RosSignalsManager import SignalsManager
+from ..signals.RosSignalsManager import SignalsManager
 
 
 class BatteryVoltageViewModel(QObject):
