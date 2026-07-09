@@ -20,7 +20,7 @@ class WaypointWidget(QWidget):
         layout = QVBoxLayout(self)
 
         waypoint_group = QGroupBox("Waypoint")
-        # waypoint_group.setStyleSheet("QGroupBox { font-weight: bold; }")
+        waypoint_group.setStyleSheet("QGroupBox { font-weight: bold; }")
 
         group_layout = QVBoxLayout()
 
