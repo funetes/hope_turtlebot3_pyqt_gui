@@ -1,0 +1,118 @@
+waypoints:
+  - name: point1
+    frame_id: map
+    pose:
+      position:
+        x: -1.7246347706
+        y: 0.5357767837
+        z: 0.0
+      angle:
+        yaw: 89.9111495477        
+  - name: point2
+    frame_id: map
+    pose:
+      position:
+        x: -0.5371546278
+        y: 0.7756611253
+        z: 0.0
+      angle:
+        yaw: 92.0
+  - name: point3
+    frame_id: map
+    pose:
+      position:
+        x: 32.4343845545
+        y: -7.96458413499
+        z: 0.0
+      angle:
+        yaw: 97.0
+  - name: point4
+    frame_id: map
+    pose:
+      position:
+        x: 32.6196522916
+        y: -5.60035842075
+        z: 0.0
+      angle:
+        yaw: 178.0
+  - name: point5
+    frame_id: map
+    pose:
+      position:
+        x: 32.3192420823
+        y: -5.58527879563
+        z: 0.0
+      angle:
+        yaw: 178.0
+  - name: point6
+    frame_id: map
+    pose:
+      position:
+        x: 32.1189222819
+        y: -3.16718305756
+        z: 0.0
+      angle:
+        yaw: 90.0
+  - name: point7
+    frame_id: map
+    pose:
+      position:
+        x: 41.7128964372
+        y: -3.21124994919
+        z: 0.0
+      angle:
+        yaw: 90.0
+  - name: point8
+    frame_id: map
+    pose:
+      position:
+        x: 36.805657077
+        y: -3.05544138152
+        z: 0.0
+      angle:
+        yaw: 180.0
+  - name: point9
+    frame_id: map
+    pose:
+      position:
+        x: 36.5141070713
+        y: 1.95981136493
+        z: 0.0
+      angle:
+        yaw: 93.7473679206
+  - name: point10
+    frame_id: map
+    pose:
+      position:
+        x: 17.3762156672
+        y: -3.34112971228
+        z: 0.0
+      angle:
+        yaw: 180.0
+  - name: point11
+    frame_id: map
+    pose:
+      position:
+        x: -0.0777364010775
+        y: -3.51628953225
+        z: 0.0
+      angle:
+        yaw: 0.0
+  - name: point12
+    frame_id: map
+    pose:
+      position:
+        x: 32.1944332567
+        y: -3.24509019902
+        z: 0.0
+      angle:
+        yaw: 270.0
+  - name: chargpos
+    frame_id: map
+    pose:
+      position:
+        x: 31.7423805086
+        y: -5.8576095782
+        z: 0.0
+      angle:
+        yaw: 3.0
