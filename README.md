@@ -16,12 +16,12 @@ TurtleBot3 PyQt GUI for ROS 2 Humble
 - trajectory 파일 로딩 및 다중 경로 실행
 - gTTS 기반 음성 출력
 - bringup, Nav2, RViz, SLAM, 맵 저장 등 런치 제어
-- 실행 로그 및 팀별 확장 기능 영역 제공
+- 실행 로그 ~~및 팀별 확장 기능 영역 제공~~
 
 ## 팀명 및 팀원
 
 - 팀명: Hope
-- 팀원: hwan (프로젝트 maintainer 기준)
+- 팀원: 김환, 박창민
 
 ## 개발 환경
 
@@ -30,19 +30,17 @@ TurtleBot3 PyQt GUI for ROS 2 Humble
 - Python: 3.10+
 - GUI Framework: PyQt5
 - Robot Platform: TurtleBot3 Burger
-- Navigation: Nav2
 - 통신: ROS 2 topic / action / SSH(remote launch)
 
 ## 설치해야 하는 패키지
 
-다음 패키지가 사전에 설치되어 있어야 합니다.
-
 ### 1) ROS 2 및 TurtleBot3 관련 패키지
 
 - ROS 2 Humble
-- TurtleBot3 패키지
-- Nav2 관련 패키지
-- SLAM/Mapping 패키지
+- TurtleBot3 
+- navagation2
+- cartographer
+- rviz2
 
 ### 2) Python 패키지
 
@@ -51,18 +49,12 @@ sudo apt update
 sudo apt install -y python3-pyqt5 python3-pyqt5.qtsvg python3-yaml
 ```
 
-또는 pip로도 설치할 수 있습니다.
-
-```bash
-pip3 install PyQt5 pyyaml
-```
-
 ## 패키지 빌드 방법
 
 ```bash
-cd /home/changmin/mini_projects/hope_turtlebot3_pyqt_gui
+cd /home/$USER/hope_turtlebot3_pyqt_gui
 source /opt/ros/humble/setup.bash
-colcon build --packages-select turtlebot3_pyqt_gui robot_audio_interfaces
+colcon build
 source install/setup.bash
 ```
 
@@ -80,27 +72,34 @@ ros2 run turtlebot3_pyqt_gui turtlebot3_gui
 
 실행 후 메인 윈도우에서 다음 영역을 사용할 수 있습니다.
 
-### 1) 로봇 상태 영역
+### 로봇 상태 영역
 
 - Connect: ROS 환경 연결 상태를 반영합니다.
 - Disconnect: 연결 상태를 해제합니다.
 - Exit: GUI를 종료합니다.
 
-### 2) 배터리/전압 및 모니터링 영역
+### 배터리/전압 영역
 
 - 배터리 잔량과 전압을 확인합니다.
-- /cmd_vel 값과 주요 ROS 토픽 정보를 확인합니다.
 
-### 3) Waypoint 영역
+### TOPIC 모니터링 영역
+
+- 현재위치 x
+- 현재위치 y
+- 현재방향 yaw
+- Lidar 최소 거리 
+
+### Waypoint 영역
 
 - Load YAML 버튼으로 waypoint 파일을 불러옵니다.
-- 경유점을 선택하고 Go To Waypoint를 눌러 이동합니다.
+- nav2가 실행된 상태에서 경유점을 선택하고 Go To Waypoint를 눌러 이동합니다.
 
-### 4) Trajectory 영역
+### Trajectory 영역
 
+- nav2를 실행시킵니다.
 - Load 버튼으로 trajectory YAML 파일을 불러옵니다.
 - ComboBox에서 trajectory를 선택합니다.
-- Run 버튼으로 실행합니다.
+- nav2가 실행된 상태에서 Run 버튼으로 실행합니다.
 
 ### 5) gTTS 영역
 
@@ -113,10 +112,8 @@ ros2 run turtlebot3_pyqt_gui turtlebot3_gui
 - Run Nav2: Nav2 실행
 - Run SLAM: SLAM 실행
 - Run Rviz2: RViz 실행
-- Save Map: 현재 맵 저장
+- Save Map: 현재 맵 저장 (현재 맵은 hope_연일월시_map.yaml 형식으로 /home/maps에 저장됩니다.)
 - Stop Launches: 실행 중인 launch 종료
-
-> 참고: 현재 UI에는 Bringup, Nav2, RViz2, SLAM, 맵 저장 기능이 포함되어 있으며, Teleop 전용 버튼은 별도로 구현되어 있지 않습니다.
 
 ## 주요 기능 설명
 
@@ -131,9 +128,9 @@ ros2 run turtlebot3_pyqt_gui turtlebot3_gui
 - 프로세스 제어
   - 로봇 런치와 네비게이션 관련 프로세스를 GUI에서 제어 가능
 
-## 경유점 등록 방법
+## 경유점 실행 방법
 
-waypoint YAML 파일을 작성해 로드하면 됩니다.
+waypoint YAML 파일은 다음 형식으로 작성합니다.
 
 ```yaml
 waypoints:
@@ -157,7 +154,7 @@ waypoints:
         yaw: 1.57
 ```
 
-로드 후 Waypoint ComboBox에서 선택하고 Go To Waypoint를 누르면 이동합니다.
+로드 후 Waypoint ComboBox에서 선택하고 **Go To Waypoint**를 누르면 이동합니다.
 
 ## trajectory 실행 방법
 
@@ -191,15 +188,13 @@ trajectories:
       - point2
 ```
 
-로드 후 trajectory를 선택하고 Run 버튼을 누르면 실행됩니다.
+로드 후 trajectory를 선택하고 **Run** 버튼을 누르면 실행됩니다.
 
 ## gTTS 사용 방법
 
 1. gTTS 영역의 입력창에 원하는 문장을 입력합니다.
 2. Speak 버튼을 누릅니다.
 3. GUI가 음성 요청을 전달하면, 로봇 측 오디오 노드가 해당 문장을 재생합니다.
-
-> 로봇 측에서 오디오 노드가 정상적으로 실행되고 있어야 음성이 출력됩니다.
 
 ## bringup/nav2/teleop 버튼 사용 방법
 
@@ -212,8 +207,6 @@ trajectories:
 - Save Map: 맵 저장
 - Stop Launches: 실행 중인 launch 종료
 
-Teleop 전용 버튼은 현재 UI에 포함되어 있지 않으며, 필요 시 별도 확장할 수 있습니다.
-
 ## 로그 확인 방법
 
 하단의 Log 영역에서 GUI 동작과 상태 변화를 확인할 수 있습니다.
@@ -225,10 +218,7 @@ Teleop 전용 버튼은 현재 UI에 포함되어 있지 않으며, 필요 시 �
 
 ## 팀별 추가 기능 설명
 
-현재 UI에는 Team Custom Functions 영역이 포함되어 있습니다.
-
-- Custom 1 / Custom 2 버튼을 통해 팀별 기능을 확장할 수 있는 구조입니다.
-- 필요에 따라 로봇 제어, 상태 확인, 알림 기능 등을 추가하면 됩니다.
+- 
 
 ## 주의 사항(옵션)
 
