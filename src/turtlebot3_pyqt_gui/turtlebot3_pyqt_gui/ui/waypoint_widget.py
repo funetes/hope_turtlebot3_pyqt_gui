@@ -33,17 +33,8 @@ class WaypointWidget(QWidget):
 
         self.waypoint_info = QLabel("No waypoint selected")
         self.waypoint_info.setMinimumHeight(90)
-        # self.waypoint_info.setStyleSheet("""
-        #     QLabel {
-        #         border: 1px solid gray;
-        #         border-radius: 4px;
-        #         padding: 8px;
-        #         font-size: 15px;
-        #         background: white;
-        #     }
-        # """)
 
-        group_layout.addWidget(self.waypoint_info)
+        # group_layout.addWidget(self.waypoint_info)
 
         waypoint_group.setLayout(group_layout)
         layout.addWidget(waypoint_group)

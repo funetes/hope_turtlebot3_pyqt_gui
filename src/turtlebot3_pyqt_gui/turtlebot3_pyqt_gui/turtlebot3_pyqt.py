@@ -70,6 +70,8 @@ class MainWindow(QMainWindow):
         self.init_navigation_ui(main_layout)
         self.init_utils_ui(main_layout)
 
+        self._connect_viewmodel_logging()
+
     def init_status_ui(self, layout):
         self.init_robot_status_area(layout)
         self.init_battery_voltage_area(layout)
@@ -118,6 +120,26 @@ class MainWindow(QMainWindow):
     def init_team_custom_area(self, layout):
         layout.addWidget(TeamCustomWidget(self.team_custom_viewmodel), 5, 0, 1, 3)
 
+
+    def _connect_viewmodel_logging(self):
+        self.gtts_viewmodel.status_changed.connect(
+            lambda msg: self.log_viewmodel.append_log(f"[TTS] {msg}")
+        )
+        self.cmd_vel_viewmodel.status_changed.connect(
+            lambda msg: self.log_viewmodel.append_log(f"[CMD_VEL] {msg}")
+        )
+        self.process_viewmodel.status_changed.connect(
+            lambda msg: self.log_viewmodel.append_log(f"[PROCESS] {msg}")
+        )
+        self.process_viewmodel.error_occurred.connect(
+            lambda msg: self.log_viewmodel.append_log(f"[PROCESS][ERROR] {msg}")
+        )
+        self.waypoint_viewmodel.waypoint_selected.connect(
+            lambda msg: self.log_viewmodel.append_log(f"[WAYPOINT] {msg}")
+        )
+        self.waypoint_viewmodel.waypoint_requested.connect(
+            lambda msg: self.log_viewmodel.append_log(f"[WAYPOINT] {msg}")
+        )
 
 def main():
     app = QApplication([])

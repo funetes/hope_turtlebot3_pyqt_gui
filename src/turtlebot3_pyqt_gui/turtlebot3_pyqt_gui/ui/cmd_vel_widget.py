@@ -37,7 +37,7 @@ class CmdVelWidget(QWidget):
         layout.addLayout(button_layout2)
 
         self.status_label = QLabel("Command status")
-        layout.addWidget(self.status_label)
+        # layout.addWidget(self.status_label)
 
         if viewmodel is not None:
             self.set_viewmodel(viewmodel)

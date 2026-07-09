@@ -74,8 +74,6 @@ class GttsService:
             return
 
         if status == "RUNNING":
-            if callable(self._status_callback):
-                self._status_callback("")
             return
 
         if callable(self._status_callback):
@@ -105,7 +103,6 @@ class GttsService:
         if self._publisher is None:
             return
 
-        print(f'{text} printed')
         msg = AudioCommand()
         msg.type = AudioCommand.TYPE_TTS
         msg.text = text
@@ -115,5 +112,5 @@ class GttsService:
         self._publisher.publish(msg)
 
         if callable(self._status_callback):
-            self._status_callback("")
+            self._status_callback(f'{text}')
 
