@@ -12,6 +12,7 @@ from rclpy.action import ActionClient
 from nav2_msgs.action import FollowWaypoints
 from geometry_msgs.msg import PoseStamped
 from tf_transformations import quaternion_from_euler
+from robot_audio_interfaces.msg import AudioCommand
 
 from ..models.waypoint import Waypoint
 from ..models.trajectory import Trajectory
@@ -35,6 +36,12 @@ class Turtlebot3PyQtGuiNode(Node):
         self.set_action_client()
 
         self.set_subscription()
+
+        self.audio_publisher = self.create_publisher(
+            AudioCommand,
+            '/audio/command',
+            10
+        )
 
     def set_follow_waypoints_client(self):
         # FollowWaypoints Action Client 생성

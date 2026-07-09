@@ -11,16 +11,6 @@ class GttsService:
         self._status_output = ""
         self._status_error = ""
         self.processes = {}
-        self._init_publisher()
-    
-    def _init_publisher(self):
-        if self._node is None:
-            return
-        self._publisher = self._node.create_publisher(
-            AudioCommand,
-            '/audio/command',
-            10
-        )
 
     def _create_status_process(self):
         self._status_process = QProcess()
@@ -97,19 +87,13 @@ class GttsService:
             self._status_callback("audio node started")
 
     def speak(self, text):
-        if self._publisher is None:
-            self._init_publisher()
-
-        if self._publisher is None:
-            return
-
         msg = AudioCommand()
         msg.type = AudioCommand.TYPE_TTS
         msg.text = text
         msg.volume = 0.3
         msg.repeat = 1
     
-        self._publisher.publish(msg)
+        self._node.audio_publisher.publish(msg)
 
         if callable(self._status_callback):
             self._status_callback(f'{text}')
