@@ -17,7 +17,7 @@ class GttsWidget(QWidget):
         self.status_label = QLabel("Preprare TTS...")
         gtts_layout.addWidget(self.text_input)
         gtts_layout.addWidget(self.btn_speak)
-        gtts_layout.addWidget(self.status_label)
+        # gtts_layout.addWidget(self.status_label)
 
         gtts_group.setLayout(gtts_layout)
         layout.addWidget(gtts_group)

@@ -38,7 +38,7 @@ class ProcessControlWidget(QWidget):
         layout.addWidget(launch_group)
 
         self.status_label = QLabel("Ready")
-        layout.addWidget(self.status_label)
+        # layout.addWidget(self.status_label)
 
         if viewmodel is not None:
             self.set_viewmodel(viewmodel)

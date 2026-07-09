@@ -27,7 +27,7 @@ class TrajectoryWidget(QWidget):
         layout.addLayout(run_row)
 
         self.status_label = QLabel("Trajectory status")
-        layout.addWidget(self.status_label)
+        # layout.addWidget(self.status_label)
 
         if viewmodel is not None:
             self.set_viewmodel(viewmodel)
