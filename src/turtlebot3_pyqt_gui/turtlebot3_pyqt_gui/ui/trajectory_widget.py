@@ -37,7 +37,7 @@ class TrajectoryWidget(QWidget):
     def set_viewmodel(self, viewmodel):
         self.viewmodel = viewmodel
         self.btn_load.clicked.connect(self._on_load)
-        # self.btn_run.clicked.connect(self._on_run)
+        self.btn_run.clicked.connect(self._on_run)
 
         self.trajectory_combo.currentIndexChanged.connect(self.viewmodel.select_trajectory)
 
@@ -55,7 +55,6 @@ class TrajectoryWidget(QWidget):
             self.viewmodel.load_trajectories(filename)
 
     def _on_run(self):
-
         self.viewmodel.run_trajectory(self.trajectory_combo.currentText())
 
     def _on_trajectories_loaded(self, names):

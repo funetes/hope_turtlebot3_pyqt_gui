@@ -4,7 +4,7 @@ from .services.launch_service import LaunchService
 from .services.gtts_service import GttsService
 from .services.trajectory_service import TrajectoryService
 from .services.cmd_vel_service import CmdVelService
-from .services.waypoints_yaml_load_service import WaypointYamlLoadService
+from .services.waypoints_service import WaypointService
 from .viewmodels.process_control_viewmodel import ProcessControlViewModel
 from .viewmodels.gtts_viewmodel import GttsViewModel
 from .viewmodels.trajectory_viewmodel import TrajectoryViewModel
@@ -34,7 +34,8 @@ class MainWindow(QMainWindow):
 
         self.launch_service = LaunchService()
         self.gtts_service = GttsService(ros_node)
-        self.trajectory_service = TrajectoryService()
+        waypoint_yaml_load_service = WaypointService(ros_node)
+        self.trajectory_service = TrajectoryService(ros_node)
         self.cmd_vel_service = CmdVelService(ros_node)
 
         self.process_viewmodel = ProcessControlViewModel(self.launch_service)
@@ -45,7 +46,7 @@ class MainWindow(QMainWindow):
         self.battery_voltage_viewmodel = BatteryVoltageViewModel()
         self.ros2_topic_viewmodel = Ros2TopicViewModel()
 
-        waypoint_yaml_load_service = WaypointYamlLoadService()
+
         self.waypoint_viewmodel = WaypointViewModel(waypoint_yaml_load_service, ros_node)
         self.log_viewmodel = LogViewModel()
         self.team_custom_viewmodel = TeamCustomViewModel()

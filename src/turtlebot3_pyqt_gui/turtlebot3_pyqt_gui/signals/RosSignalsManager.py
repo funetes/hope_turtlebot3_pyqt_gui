@@ -5,6 +5,7 @@ from sensor_msgs.msg import BatteryState
 class ROSSignalsManager(QObject):
 
     # 필요한 시그널 정의
+    log_msg_rceived = pyqtSignal(str)
     service_response_received = pyqtSignal(dict)
     node_status_changed = pyqtSignal(str)
     battery_status_received = pyqtSignal(BatteryState)
@@ -26,6 +27,8 @@ class ROSSignalsManager(QObject):
     def emit_robot_topic_info(self, robot_topic_info):
         self.robot_topic_info_received.emit(robot_topic_info)
 
+    def emit_log_msg(self, msg):
+        self.log_msg_rceived.emit(msg)
 
 # 파일의 맨 아래에서 인스턴스를 미리 '하나만' 생성해 둡니다.
 SignalsManager = ROSSignalsManager()

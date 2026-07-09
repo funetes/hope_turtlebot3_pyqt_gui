@@ -1,5 +1,7 @@
 import math
 
+from sympy import im
+
 from nav_msgs.msg import Odometry
 from rclpy.node import Node
 from rclpy.qos import qos_profile_sensor_data
@@ -7,11 +9,14 @@ from sensor_msgs.msg import BatteryState, LaserScan
 from tf_transformations import euler_from_quaternion
 from nav2_msgs.action import NavigateToPose
 from rclpy.action import ActionClient
+from nav2_msgs.action import FollowWaypoints
+from geometry_msgs.msg import PoseStamped
+from tf_transformations import quaternion_from_euler
 
 from ..models.waypoint import Waypoint
+from ..models.trajectory import Trajectory
 from ..models.robot_topic_info import RobotTopicInfo
 from ..signals.RosSignalsManager import SignalsManager
-
 
 class Turtlebot3PyQtGuiNode(Node):
     def __init__(self):
@@ -24,8 +29,20 @@ class Turtlebot3PyQtGuiNode(Node):
 
         self._robot_topic_timer = self.create_timer(0.5, self._robot_topic_emit)
 
+        # traject 주행 client
+        self.set_follow_waypoints_client()
+        # 지정된 하나의 경유점 까지 주행
         self.set_action_client()
+
         self.set_subscription()
+
+    def set_follow_waypoints_client(self):
+        # FollowWaypoints Action Client 생성
+        self._follow_waypoints_client = ActionClient(
+            self,
+            FollowWaypoints,
+            "follow_waypoints",
+        )
 
     def set_action_client(self):
         self._navigate_client = ActionClient(self, NavigateToPose, "navigate_to_pose")
@@ -91,3 +108,58 @@ class Turtlebot3PyQtGuiNode(Node):
     # def _spin_once(self):
     #     rclpy.spin_once(self, timeout_sec=0)
 
+    def follow_trajectory(self, trajectory: Trajectory):
+
+        """
+        Trajectory를 FollowWaypoints Action으로 전송한다.
+        """
+        self.get_logger().info("follow_trajectory()")
+        # Nav2 서버가 준비될 때까지 대기
+        if not self._follow_waypoints_client.wait_for_server(timeout_sec=3.0):
+            self.get_logger().warning(
+                "navi server is not open yet"
+            )
+            return
+
+        # Action Goal 생성
+        goal = FollowWaypoints.Goal()
+
+        # Goal에 Pose 목록 저장
+        goal.poses = [
+            waypoint.to_pose_stamped(self.get_clock())
+            for waypoint in trajectory.waypoints
+        ]
+
+        # Action 전송
+        future = self._follow_waypoints_client.send_goal_async(goal)
+
+        # Goal 수락 여부 확인
+        future.add_done_callback(self._goal_response_callback)
+
+    def _goal_response_callback(self, future):
+
+        goal_handle = future.result()
+
+        if not goal_handle.accepted:
+            self.get_logger().warn("FollowWaypoints Goal Rejected")
+            return
+
+        self.get_logger().info("FollowWaypoints Started")
+
+        result_future = goal_handle.get_result_async()
+
+        result_future.add_done_callback(
+            self._result_callback
+        )
+
+    def _result_callback(self, future):
+
+        result = future.result().result
+
+        self.get_logger().info(
+            "Trajectory Finished"
+        )
+
+        self.get_logger().info(
+            f"Missed Waypoints : {result.missed_waypoints}"
+        )

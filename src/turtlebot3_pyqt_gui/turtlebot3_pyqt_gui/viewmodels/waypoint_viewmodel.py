@@ -8,9 +8,9 @@ class WaypointViewModel(QObject):
     waypoint_selected = pyqtSignal(Waypoint)
     waypoint_requested = pyqtSignal(str)
 
-    def __init__(self, waypoint_yaml_load_service, ros_node):
+    def __init__(self, waypoint_service, ros_node):
         super().__init__()
-        self._yaml_service = waypoint_yaml_load_service
+        self._service = waypoint_service
         self._ros_node = ros_node
         self._waypoints: list[Waypoint] = []
 
@@ -22,7 +22,7 @@ class WaypointViewModel(QObject):
 
     def load_waypoints(self, path):
 
-        self._waypoints = self._yaml_service.load(path)
+        self._waypoints = self._service.load(path)
 
         print(self._waypoints)
 
@@ -41,12 +41,7 @@ class WaypointViewModel(QObject):
         if self._selected_waypoint is None:
             print("선택된 경유점이 없습니다.")
 
-        success = self._ros_node.navigate_to_waypoint(self.selected_waypoint)
-
-        if success:
-            print("Navigation started.")
-        else:
-            print("Navigation server unavailable.")
+        self._service.run_to_waypoint(self.select_waypoint)
 
     @pyqtSlot(int)
     def select_waypoint(self, index: int):
