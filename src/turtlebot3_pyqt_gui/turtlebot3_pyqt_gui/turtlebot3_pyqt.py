@@ -145,6 +145,19 @@ class MainWindow(QMainWindow):
             lambda msg: self.log_viewmodel.append_log(f"[WEATHER] {msg}")
         )
 
+    def closeEvent(self, event):
+        # if self.node:
+        #     self.send_velocity(0.0, 0.0)
+
+        # self.stop_processes()
+        # self.disconnect_ros()
+
+        # if rclpy.ok():
+        #     rclpy.shutdown()
+        
+
+        event.accept()
+
 def main():
     app = QApplication([])
     win = MainWindow()
