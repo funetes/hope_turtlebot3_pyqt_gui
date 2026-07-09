@@ -4,6 +4,12 @@ from sensor_msgs.msg import BatteryState
 
 class ROSSignalsManager(QObject):
 
+    
+    ros_connect_requested = pyqtSignal()
+    ros_disconnect_requested = pyqtSignal()
+
+    ros_node_connection_changed = pyqtSignal(bool)
+
     # 필요한 시그널 정의
     log_msg_rceived = pyqtSignal(str)
     service_response_received = pyqtSignal(dict)
@@ -29,6 +35,9 @@ class ROSSignalsManager(QObject):
 
     def emit_log_msg(self, msg):
         self.log_msg_rceived.emit(msg)
+
+    def emit_ros_node_connection_changed(self, isConnected):
+        self.ros_node_connection_changed.emit(isConnected)
 
 # 파일의 맨 아래에서 인스턴스를 미리 '하나만' 생성해 둡니다.
 SignalsManager = ROSSignalsManager()

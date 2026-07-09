@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QWidget, QVBoxLayout, QGroupBox, QFormLayout, QLineEdit, QPushButton, QHBoxLayout
+from PyQt5.QtWidgets import QWidget, QVBoxLayout, QGroupBox, QFormLayout, QLineEdit, QPushButton, QHBoxLayout, QApplication
 
 
 class RobotStatusWidget(QWidget):
@@ -12,7 +12,7 @@ class RobotStatusWidget(QWidget):
         status_group.setStyleSheet("QGroupBox { font-weight: bold; }")
         status_layout = QFormLayout()
 
-        self.ros_state = QLineEdit("--")
+        self.ros_state = QLineEdit("Connected")
         self.ros_state.setReadOnly(True)
 
         status_layout.addRow("ROS", self.ros_state)
@@ -32,12 +32,14 @@ class RobotStatusWidget(QWidget):
         if viewmodel is not None:
             self.set_viewmodel(viewmodel)
 
+
     def set_viewmodel(self, viewmodel):
         self.viewmodel = viewmodel
         self.btn_connect.clicked.connect(self.viewmodel.connect)
         self.btn_disconnect.clicked.connect(self.viewmodel.disconnect)
-        self.btn_exit.clicked.connect(self.viewmodel.exit)
+        self.btn_exit.clicked.connect(QApplication.quit)
+
         self.viewmodel.status_changed.connect(self.update_status)
 
-    def update_status(self, ros_state, min_scan, last_cmd):
+    def update_status(self, ros_state):
         self.ros_state.setText(ros_state)

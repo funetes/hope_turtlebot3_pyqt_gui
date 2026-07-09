@@ -7,6 +7,7 @@ import rclpy
 from rclpy.node import Node
 
 from .ros.turtlebot3_pyqt_gui_node import Turtlebot3PyQtGuiNode
+from .ros.robot_connection import RobotConnection
 
 PYQT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', 'pyqt'))
 if PYQT_ROOT not in sys.path:
@@ -21,18 +22,26 @@ def main(args=None):
     rclpy.init(args=args)
 
     app = QApplication(sys.argv)
-    gui_node = Turtlebot3PyQtGuiNode()
-    main = MainWindow(gui_node)
-    main.show()
 
-    qt_timer = QTimer()
-    qt_timer.timeout.connect(lambda: rclpy.spin_once(gui_node, timeout_sec=0))
-    qt_timer.start(10)
+
+    connection = RobotConnection()
+    connection.node_connect()
+
+    window = MainWindow(connection.node)
+    window.show()
+
+    timer = QTimer()
+    timer.timeout.connect(connection.spin_once)
+    timer.start(10)
 
     exit_code = app.exec_()
-    gui_node.destroy_node()
+
+    connection.node_disconnect()
+
     rclpy.shutdown()
+
     sys.exit(exit_code)
+
 
 
 if __name__ == '__main__':

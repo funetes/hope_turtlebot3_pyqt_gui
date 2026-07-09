@@ -2,15 +2,17 @@ import rclpy
 
 from .turtlebot3_pyqt_gui_node import Turtlebot3PyQtGuiNode
 from ..signals.RosSignalsManager import SignalsManager
+from PyQt5.QtCore import QObject, pyqtSlot
 
-class RobotConnection():
+class RobotConnection(QObject):
 
     def __init__(self):
+        super().__init__()
 
         self._node = None
 
-        SignalsManager.ros_connect_requested.connect(self.connect)
-        SignalsManager.ros_disconnect_requested.connect(self.disconnect)
+        SignalsManager.ros_connect_requested.connect(self.node_connect)
+        SignalsManager.ros_disconnect_requested.connect(self.node_disconnect)
 
     @property
     def node(self):
@@ -20,16 +22,22 @@ class RobotConnection():
     def is_connected(self):
         return self._node is not None
 
-    def connect(self):
+    @pyqtSlot()
+    def node_connect(self):
+
+        print("connect:", id(self), self._node)
 
         if self._node is not None:
+            print("already connected")
             return
 
         self._node = Turtlebot3PyQtGuiNode()
+        print("created:", id(self._node))
 
         SignalsManager.emit_ros_node_connection_changed(True)
 
-    def disconnect(self):
+    @pyqtSlot()
+    def node_disconnect(self):
 
         if self._node is None:
             return

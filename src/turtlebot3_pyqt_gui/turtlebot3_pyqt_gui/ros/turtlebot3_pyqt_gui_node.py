@@ -22,6 +22,8 @@ from ..signals.RosSignalsManager import SignalsManager
 class Turtlebot3PyQtGuiNode(Node):
     def __init__(self):
         super().__init__("turtlebot3_pyqt_gui")
+
+
         # self._timer = self.create_timer(0.01, self._spin_once)
 
         self.signalsManager = SignalsManager

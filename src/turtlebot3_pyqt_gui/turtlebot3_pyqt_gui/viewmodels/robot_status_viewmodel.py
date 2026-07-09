@@ -1,35 +1,42 @@
 import os
 from PyQt5.QtCore import QObject, pyqtSignal, pyqtSlot
 
+from ..signals.RosSignalsManager import SignalsManager
 
 class RobotStatusViewModel(QObject):
-    status_changed = pyqtSignal(str, str, str)
+    status_changed = pyqtSignal(str)
     error_occurred = pyqtSignal(str)
 
     def __init__(self):
         super().__init__()
         self.ros_state = "Disconnected"
-        self.min_scan = "--"
-        self.last_cmd = "--"
+
+        SignalsManager.ros_node_connection_changed.connect(self._connection_changed)
+
 
     @pyqtSlot()
     def connect(self):
         domain_id = '60'
         os.environ['ROS_DOMAIN_ID'] = domain_id if domain_id else '60'
-        self.ros_state = f'domain_id: {domain_id} connected.'
-        self.min_scan = ""
-        self._emit_status()
+        # self.ros_state = f'domain_id: {domain_id} connected.'
+        # self.min_scan = ""
+        # self._emit_status()
+        SignalsManager.ros_connect_requested.emit()
 
     @pyqtSlot()
     def disconnect(self):
-        self.ros_state = "Disconnected"
-        self._emit_status()
+        # self.ros_state = "Disconnected"
+        # self._emit_status()
+        SignalsManager.ros_disconnect_requested.emit()
 
     @pyqtSlot()
     def exit(self):
         self._emit_status("Application exit requested")
 
-    def _emit_status(self, message=None):
-        if message is None:
-            message = self.last_cmd
-        self.status_changed.emit(self.ros_state, self.min_scan, message)
+    @pyqtSlot(bool)
+    def _connection_changed(self, isConnected):
+        self._emit_status("connected" if isConnected else  "Disconnected")
+
+    @pyqtSlot(bool)
+    def _emit_status(self, message):
+        self.status_changed.emit(message)
