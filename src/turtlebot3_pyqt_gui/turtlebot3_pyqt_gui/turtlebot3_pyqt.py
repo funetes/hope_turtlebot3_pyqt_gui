@@ -33,7 +33,7 @@ class MainWindow(QMainWindow):
         self.resize(1200, 820)
 
         self.launch_service = LaunchService()
-        self.gtts_service = GttsService()
+        self.gtts_service = GttsService(ros_node)
         self.trajectory_service = TrajectoryService()
         self.cmd_vel_service = CmdVelService(ros_node)
 

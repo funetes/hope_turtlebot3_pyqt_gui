@@ -8,12 +8,19 @@ class GttsViewModel(QObject):
     def __init__(self, gtts_service):
         super().__init__()
         self.gtts_service = gtts_service
+        self.connect()
 
     @pyqtSlot(str)
     def speak(self, text):
         if not text:
             self.status_changed.emit("Please enter text.")
             return
-        self.status_changed.emit("Speaking...")
-        self.gtts_service.speak(text)
         self.status_changed.emit("Speak request submitted.")
+        self.gtts_service.speak(text)
+
+    @pyqtSlot(str)
+    def connect(self):
+        self.gtts_service.connect_audio(
+            self.status_changed.emit
+        )
+        

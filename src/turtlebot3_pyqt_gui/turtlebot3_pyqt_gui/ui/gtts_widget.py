@@ -14,7 +14,7 @@ class GttsWidget(QWidget):
 
         self.text_input = QLineEdit("Hello TurtleBot")
         self.btn_speak = QPushButton("Speak")
-        self.status_label = QLabel("Ready")
+        self.status_label = QLabel("Preprare TTS...")
         gtts_layout.addWidget(self.text_input)
         gtts_layout.addWidget(self.btn_speak)
         gtts_layout.addWidget(self.status_label)
