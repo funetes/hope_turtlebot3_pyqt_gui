@@ -49,7 +49,7 @@ class MainWindow(QMainWindow):
 
         self.waypoint_viewmodel = WaypointViewModel(waypoint_yaml_load_service, ros_node)
         self.log_viewmodel = LogViewModel()
-        self.team_custom_viewmodel = TeamCustomViewModel()
+        self.team_custom_viewmodel = TeamCustomViewModel(ros_node)
 
         central_widget = QWidget()
         self.setCentralWidget(central_widget)
@@ -140,6 +140,9 @@ class MainWindow(QMainWindow):
         )
         self.waypoint_viewmodel.waypoint_requested.connect(
             lambda msg: self.log_viewmodel.append_log(f"[WAYPOINT] {msg}")
+        )
+        self.team_custom_viewmodel.action_triggered.connect(
+            lambda msg: self.log_viewmodel.append_log(f"[WEATHER] {msg}")
         )
 
 def main():
