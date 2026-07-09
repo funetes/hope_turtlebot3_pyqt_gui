@@ -1,5 +1,5 @@
 import sys
-from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QGridLayout
+from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QGridLayout, QScrollArea
 from .services.launch_service import LaunchService
 from .services.gtts_service import GttsService
 from .services.trajectory_service import TrajectoryService
@@ -52,7 +52,18 @@ class MainWindow(QMainWindow):
 
         central_widget = QWidget()
         self.setCentralWidget(central_widget)
-        main_layout = QGridLayout(central_widget)
+
+        scroll_area = QScrollArea(central_widget)
+        scroll_area.setWidgetResizable(True)
+
+        content_widget = QWidget()
+        scroll_area.setWidget(content_widget)
+
+        main_layout = QGridLayout(content_widget)
+
+        outer_layout = QGridLayout(central_widget)
+        outer_layout.addWidget(scroll_area, 0, 0)
+        central_widget.setLayout(outer_layout)
 
         self.init_status_ui(main_layout)
         self.init_monitor_ui(main_layout)
@@ -84,28 +95,28 @@ class MainWindow(QMainWindow):
         layout.addWidget(BatteryVoltageWidget(self.battery_voltage_viewmodel), 0, 1)
 
     def init_cmd_vel_area(self, layout):
-        layout.addWidget(CmdVelWidget(self.cmd_vel_viewmodel), 1, 0)
+        layout.addWidget(CmdVelWidget(self.cmd_vel_viewmodel), 1, 2)
 
     def init_ros2_topic_monitor_area(self, layout):
         layout.addWidget(Ros2TopicWidget(self.ros2_topic_viewmodel), 1, 1)
 
     def init_waypoint_area(self, layout):
-        layout.addWidget(WaypointWidget(self.waypoint_viewmodel), 2, 0)
+        layout.addWidget(WaypointWidget(self.waypoint_viewmodel), 1, 0)
 
     def init_trajectory_area(self, layout):
-        layout.addWidget(TrajectoryWidget(self.trajectory_viewmodel), 2, 1)
+        layout.addWidget(TrajectoryWidget(self.trajectory_viewmodel), 2, 0)
 
     def init_gtts_area(self, layout):
-        layout.addWidget(GttsWidget(self.gtts_viewmodel), 3, 0)
+        layout.addWidget(GttsWidget(self.gtts_viewmodel), 2, 1, 1, 2)
 
     def init_process_control_area(self, layout):
-        layout.addWidget(ProcessControlWidget(self.process_viewmodel), 3, 1)
+        layout.addWidget(ProcessControlWidget(self.process_viewmodel), 0, 2)
 
     def init_log_area(self, layout):
-        layout.addWidget(LogWidget(self.log_viewmodel), 4, 0, 1, 2)
+        layout.addWidget(LogWidget(self.log_viewmodel), 4, 0, 1, 3)
 
     def init_team_custom_area(self, layout):
-        layout.addWidget(TeamCustomWidget(self.team_custom_viewmodel), 5, 0, 1, 2)
+        layout.addWidget(TeamCustomWidget(self.team_custom_viewmodel), 5, 0, 1, 3)
 
 
 def main():
