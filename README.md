@@ -37,7 +37,7 @@ TurtleBot3 PyQt GUI for ROS 2 Humble
 ### 1) ROS 2 및 TurtleBot3 관련 패키지
 
 - ROS 2 Humble
-- TurtleBot3 
+- TurtleBot3
 - navagation2
 - cartographer
 - rviz2
@@ -87,7 +87,7 @@ ros2 run turtlebot3_pyqt_gui turtlebot3_gui
 - 현재위치 x
 - 현재위치 y
 - 현재방향 yaw
-- Lidar 최소 거리 
+- Lidar 최소 거리
 
 ### Waypoint 영역
 
@@ -218,7 +218,7 @@ trajectories:
 
 ## 팀별 추가 기능 설명
 
-- 
+-
 
 ## 주의 사항(옵션)
 
@@ -230,12 +230,20 @@ trajectories:
 ## 실행 화면 예시
 
 아래와 같은 형태로 GUI가 구성됩니다.
+<!-- <img src="./images/스크린샷 2026-07-09 152454.png"><img src="./images/스크린샷 2026-07-09 152549.png"> -->
+<table>
+  <tr>
+    <td><img src="./images/스크린샷 2026-07-09 152454.png" width="300"><br>전체 UI</td>
+    <td><img src="./images/스크린샷 2026-07-09 152549.png" width="300"><br>웨이포인트, prajectory 로드 버튼 클릭시</td>
+  </tr>
+</table>
 
 ```text
 [Robot Status] [Battery / Voltage] [Launch Control]
-[Waypoint]     [Trajectory]       [gTTS]
-[Velocity / Topic Monitor]
-[Log / Team Custom Functions]
+[Waypoint]     [Topic Monitor]       [cmd vel     ]
+[Trajectory]   [                 gtts             ]
+[                      Log                        ]
+[Team Custom Functions                            ]
 ```
 
 ## 참고
