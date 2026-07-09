@@ -14,11 +14,10 @@ class TrajectoryViewModel(QObject):
         self.trajectory_service = trajectory_service
         self._selected_trajectory: Trajectory | None = None
 
-
-    @pyqtSlot(str)
-    def run_trajectory(self, trajectory):
-        self.trajectory_service.run_trajectory(trajectory)
-        self.trajectory_started.emit(trajectory)
+    @pyqtSlot()
+    def run_trajectory(self):
+        self.trajectory_service.run_trajectory(self._selected_trajectory)
+        # self.trajectory_started.emit(trajectory)
 
     @pyqtSlot(str)
     def load_trajectories(self, path):
@@ -32,7 +31,6 @@ class TrajectoryViewModel(QObject):
 
         if self._trajectories:
             self.select_trajectory(0)
-
 
     @pyqtSlot(int)
     def select_trajectory(self, index: int):

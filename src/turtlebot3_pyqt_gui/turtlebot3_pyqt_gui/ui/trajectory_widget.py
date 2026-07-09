@@ -55,7 +55,7 @@ class TrajectoryWidget(QWidget):
             self.viewmodel.load_trajectories(filename)
 
     def _on_run(self):
-        self.viewmodel.run_trajectory(self.trajectory_combo.currentText())
+        self.viewmodel.run_trajectory()
 
     def _on_trajectories_loaded(self, names):
         self.trajectory_combo.clear()

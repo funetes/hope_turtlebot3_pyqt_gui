@@ -126,8 +126,7 @@ class Turtlebot3PyQtGuiNode(Node):
 
         # Goal에 Pose 목록 저장
         goal.poses = [
-            waypoint.to_pose_stamped(self.get_clock())
-            for waypoint in trajectory.waypoints
+            waypoint.to_pose_stamped(self.get_clock()) for waypoint in trajectory.waypoints
         ]
 
         # Action 전송
