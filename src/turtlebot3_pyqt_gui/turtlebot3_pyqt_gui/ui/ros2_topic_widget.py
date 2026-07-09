@@ -18,7 +18,6 @@ class Ros2TopicWidget(QWidget):
         self.btn_refresh = QPushButton("Refresh")
 
         topic_layout.addWidget(self.topic_text)
-        topic_layout.addWidget(self.btn_refresh)
         topic_group.setLayout(topic_layout)
         layout.addWidget(topic_group)
 
