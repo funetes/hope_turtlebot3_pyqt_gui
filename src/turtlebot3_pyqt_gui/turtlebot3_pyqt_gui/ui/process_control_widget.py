@@ -34,6 +34,14 @@ class ProcessControlWidget(QWidget):
         row3.addWidget(self.btn_stop_launches)
         launch_layout.addLayout(row3)
 
+        row4 = QHBoxLayout()
+        self.btn_start_camera = QPushButton("Start Camera")
+        self.btn_stop_camera = QPushButton("Stop Camera")
+        row4.addWidget(self.btn_start_camera)
+        row4.addWidget(self.btn_stop_camera)
+        launch_layout.addLayout(row4)
+
+
         launch_group.setLayout(launch_layout)
         layout.addWidget(launch_group)
 
@@ -47,11 +55,15 @@ class ProcessControlWidget(QWidget):
         self.viewmodel = viewmodel
         self.btn_run_bringup.clicked.connect(self.viewmodel.run_bringup)
         self.btn_stop_bringup.clicked.connect(self.viewmodel.stop_bringup)
+
         self.btn_run_slam.clicked.connect(self.viewmodel.run_slam)
         self.btn_run_nav2.clicked.connect(self.viewmodel.run_nav2)
         self.btn_run_rviz2.clicked.connect(self.viewmodel.run_rviz2)
         self.btn_save_map.clicked.connect(self.viewmodel.save_map)
         self.btn_stop_launches.clicked.connect(self.viewmodel.stop_launches)
+
+        self.btn_start_camera.clicked.connect(self.viewmodel.start_camera)
+        self.btn_stop_camera.clicked.connect(self.viewmodel.stop_camera)
 
         self.viewmodel.status_changed.connect(self._on_status_changed)
         self.viewmodel.error_occurred.connect(self._on_error_occurred)

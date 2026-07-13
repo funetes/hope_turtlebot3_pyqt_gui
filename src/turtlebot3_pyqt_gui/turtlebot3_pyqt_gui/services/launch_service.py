@@ -71,6 +71,18 @@ class LaunchService:
                 proc.waitForFinished(5000)
             del self.processes[name]
 
+    def start_camera(self):
+        self._start_remote_process(
+            "start camera",
+            ["~/tb3_scripts/start_camera.sh"]
+        )
+
+    def stop_camera(self):
+        self._start_remote_process(
+            "stop camera",
+            ["~/tb3_scripts/stop_camera.sh"]
+        )
+
     def _start_local_process(self, name, command):
         if not command:
             raise ValueError("Command list cannot be empty")

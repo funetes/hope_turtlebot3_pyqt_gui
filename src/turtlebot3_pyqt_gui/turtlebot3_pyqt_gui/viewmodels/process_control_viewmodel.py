@@ -16,7 +16,7 @@ class ProcessControlViewModel(QObject):
     
     @pyqtSlot()
     def stop_bringup(self):
-        self._execute(self.launch_service.stop_bringup, "Bringup Stoped requested")
+        self._execute(self.launch_service.stop_bringup, "Bringup Stop requested")
 
     @pyqtSlot()
     def run_slam(self):
@@ -37,6 +37,14 @@ class ProcessControlViewModel(QObject):
     @pyqtSlot()
     def stop_launches(self):
         self._execute(self.launch_service.stop_launches, "Stop launches requested")
+
+    @pyqtSlot()
+    def start_camera(self):
+        self._execute(self.launch_service.start_camera, "camera node start requested")
+
+    @pyqtSlot()
+    def stop_camera(self):
+        self._execute(self.launch_service.stop_camera, "camera node stop requested")
 
     def _execute(self, action, success_message):
         try:
