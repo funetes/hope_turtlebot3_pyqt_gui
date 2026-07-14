@@ -26,8 +26,8 @@ class WaypointService:
 
         return waypoints
 
-    def run_to_waypoint(self, waipoint):
-        if waipoint is None:
+    def run_to_waypoint(self, waypoint):
+        if waypoint is None:
             print("선택된 경유점이 없습니다.")
 
         success = self._ros.gui_node.navigate_to_waypoint(waypoint)
