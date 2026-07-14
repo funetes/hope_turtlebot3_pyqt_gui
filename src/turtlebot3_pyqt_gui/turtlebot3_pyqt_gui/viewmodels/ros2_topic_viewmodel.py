@@ -19,10 +19,10 @@ class Ros2TopicViewModel(QObject):
 
     def update_robot_topic_info(self, robot_topic_info):
         topic_text = (
-            f"현재 위치 x : {robot_topic_info.pos_x}\n"
-            f"현재 위치 y : {robot_topic_info.pos_y}\n"
-            f"현재 방향 yaw : {robot_topic_info.yaw}\n"
-            f"LiDAR 최소 거리 : {robot_topic_info.min_distance} m"
+            f"현재 위치 x : {robot_topic_info.pos_x:.3f}\n"
+            f"현재 위치 y : {robot_topic_info.pos_y:.3f}\n"
+            f"현재 방향 yaw : {robot_topic_info.yaw:.3f}\n"
+            f"LiDAR 최소 거리 : {robot_topic_info.min_distance:.2f} m"
         )
         self.topics_changed.emit(topic_text)
 
