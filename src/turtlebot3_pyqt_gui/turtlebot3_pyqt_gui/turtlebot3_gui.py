@@ -6,8 +6,7 @@ from PyQt5.QtWidgets import QApplication
 import rclpy
 from rclpy.node import Node
 
-from .ros.turtlebot3_pyqt_gui_node import Turtlebot3PyQtGuiNode
-from .ros.robot_connection import RobotConnection
+from .ros.ros_manager import IROSManager, ROSManager
 
 PYQT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', 'pyqt'))
 if PYQT_ROOT not in sys.path:
@@ -23,20 +22,18 @@ def main(args=None):
 
     app = QApplication(sys.argv)
 
+    ros_manager: IROSManager = ROSManager()
 
-    connection = RobotConnection()
-    connection.node_connect()
-
-    window = MainWindow(connection.node)
+    window = MainWindow(ros_manager)
     window.show()
 
     timer = QTimer()
-    timer.timeout.connect(connection.spin_once)
+    timer.timeout.connect(ros_manager.spin_once)
     timer.start(10)
 
     exit_code = app.exec_()
 
-    connection.node_disconnect()
+    ros_manager.disconnect()
 
     rclpy.shutdown()
 

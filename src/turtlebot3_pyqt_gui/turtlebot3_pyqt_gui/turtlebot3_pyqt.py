@@ -1,5 +1,9 @@
 import sys
 from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QGridLayout, QScrollArea
+from sympy import im
+
+from .ros.ros_manager import IROSManager
+
 from .services.launch_service import LaunchService
 from .services.gtts_service import GttsService
 from .services.trajectory_service import TrajectoryService
@@ -27,29 +31,29 @@ from .ui.log_widget import LogWidget
 from .ui.team_custom_widget import TeamCustomWidget
 
 class MainWindow(QMainWindow):
-    def __init__(self, ros_node=None):
+    def __init__(self, ros: IROSManager):
         super().__init__()
         self.setWindowTitle("TurtleBot3 Burger ROS2 Humble Control GUI")
         self.resize(1200, 820)
 
         self.launch_service = LaunchService()
-        self.gtts_service = GttsService(ros_node)
-        waypoint_yaml_load_service = WaypointService(ros_node)
-        self.trajectory_service = TrajectoryService(ros_node)
-        self.cmd_vel_service = CmdVelService(ros_node)
+        self.gtts_service = GttsService(ros)
+        waypoint_yaml_load_service = WaypointService(ros)
+        self.trajectory_service = TrajectoryService(ros)
+        self.cmd_vel_service = CmdVelService(ros)
 
         self.process_viewmodel = ProcessControlViewModel(self.launch_service)
         self.gtts_viewmodel = GttsViewModel(self.gtts_service)
         self.trajectory_viewmodel = TrajectoryViewModel(self.trajectory_service)
         self.cmd_vel_viewmodel = CmdVelViewModel(self.cmd_vel_service)
-        self.robot_status_viewmodel = RobotStatusViewModel()
+        self.robot_status_viewmodel = RobotStatusViewModel(ros)
         self.battery_voltage_viewmodel = BatteryVoltageViewModel()
         self.ros2_topic_viewmodel = Ros2TopicViewModel()
 
 
-        self.waypoint_viewmodel = WaypointViewModel(waypoint_yaml_load_service, ros_node)
+        self.waypoint_viewmodel = WaypointViewModel(waypoint_yaml_load_service)
         self.log_viewmodel = LogViewModel()
-        self.team_custom_viewmodel = TeamCustomViewModel(ros_node)
+        self.team_custom_viewmodel = TeamCustomViewModel(ros)
 
         central_widget = QWidget()
         self.setCentralWidget(central_widget)
@@ -154,7 +158,7 @@ class MainWindow(QMainWindow):
 
         # if rclpy.ok():
         #     rclpy.shutdown()
-        
+
 
         event.accept()
 
