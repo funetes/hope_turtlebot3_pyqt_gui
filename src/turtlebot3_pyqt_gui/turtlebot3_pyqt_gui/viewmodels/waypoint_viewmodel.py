@@ -8,10 +8,10 @@ class WaypointViewModel(QObject):
     waypoint_selected = pyqtSignal(Waypoint)
     waypoint_requested = pyqtSignal(str)
 
-    def __init__(self, waypoint_service, ros_node):
+    def __init__(self, waypoint_service):
         super().__init__()
         self._service = waypoint_service
-        self._ros_node = ros_node
+        
         self._waypoints: list[Waypoint] = []
 
         self._selected_waypoint: Waypoint | None = None

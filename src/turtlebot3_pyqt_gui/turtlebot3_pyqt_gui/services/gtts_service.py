@@ -1,9 +1,12 @@
 from robot_audio_interfaces.msg import AudioCommand
 from PyQt5.QtCore import QProcess
 
+from ..ros.ros_manager import IROSManager
+
 class GttsService:
-    def __init__(self, node=None):
-        self._node = node
+    def __init__(self, ros: IROSManager):
+        self._ros = ros
+
         self._publisher = None
         self._audio_process = None
         self._status_process = None
@@ -92,8 +95,8 @@ class GttsService:
         msg.text = text
         msg.volume = 0.3
         msg.repeat = 1
-    
-        self._node.audio_publisher.publish(msg)
+
+        self._ros.gui_node.audio_publisher.publish(msg)
 
         if callable(self._status_callback):
             self._status_callback(f'{text}')

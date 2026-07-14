@@ -1,17 +1,19 @@
 import rclpy
 from geometry_msgs.msg import Twist
+from ..ros.ros_manager import IROSManager
 
 
 class CmdVelService:
-    def __init__(self, node=None):
-        self._node = node
+    def __init__(self, ros: IROSManager):
+        self._ros = ros
+
         self._publisher = None
         self._init_publisher()
 
     def _init_publisher(self):
-        if self._node is None:
+        if self._ros.gui_node is None:
             return
-        self._publisher = self._node.create_publisher(Twist, '/cmd_vel', 10)
+        self._publisher = self._ros.gui_node.create_publisher(Twist, '/cmd_vel', 10)
 
     def send_command(self, command, linear, angular):
         if self._publisher is None:

@@ -3,13 +3,15 @@ from typing import List
 from pathlib import Path
 import yaml
 
+from ..ros.ros_manager import IROSManager
+
 from ..models.trajectory import Trajectory
 from ..models.waypoint import Waypoint
 
 class TrajectoryService:
 
-    def __init__(self, ros_node=None) -> None:
-        self.ros_node = ros_node
+    def __init__(self, ros: IROSManager) -> None:
+        self._ros = ros
 
     def load_trajectory(self, trajectory):
         # trajectory load 처리 예시
@@ -29,5 +31,5 @@ class TrajectoryService:
         ]
 
     def run_trajectory(self, trajectory):
-        self.ros_node.follow_trajectory(trajectory)
+        self._ros.gui_node.follow_trajectory(trajectory)
 

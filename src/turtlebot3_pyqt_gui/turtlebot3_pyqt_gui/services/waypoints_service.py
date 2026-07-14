@@ -3,13 +3,15 @@ from pathlib import Path
 from typing import List
 import yaml
 
+from ..ros.ros_manager import IROSManager
+
 from ..models.waypoint import Waypoint
 
 
 class WaypointService:
 
-    def __init__(self, ros_node=None):
-        self.ros_node = ros_node
+    def __init__(self, ros: IROSManager):
+        self._ros = ros
 
     def load(self, file_path: str | Path) -> List[Waypoint]:
 
@@ -28,7 +30,7 @@ class WaypointService:
         if waipoint is None:
             print("선택된 경유점이 없습니다.")
 
-        success = self._ros_node.navigate_to_waypoint(waypoint)
+        success = self._ros.gui_node.navigate_to_waypoint(waypoint)
 
         if success:
             print("Navigation started.")
