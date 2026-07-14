@@ -84,10 +84,15 @@ class Turtlebot3PyQtGuiNode(Node):
         _, _, self.robot_topic_info.yaw = euler_from_quaternion([q.x, q.y, q.z, q.w])
 
     def _scan_callback(self, msg: LaserScan):
-        valid = [r for r in msg.ranges if not math.isinf(r) and not math.isnan(r)]
-
-        # print(len(valid))
-
+      
+        valid = [
+            r
+            for r in msg.ranges
+            if (
+                math.isfinite(r)
+                and msg.range_min <= r <= msg.range_max
+            )
+        ]
         self.robot_topic_info.min_distance = min(valid) if valid else float("inf")
 
     def _battery_state_callback(self, msg: BatteryState):
